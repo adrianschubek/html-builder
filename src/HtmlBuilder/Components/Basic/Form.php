@@ -4,8 +4,10 @@
  * Adrian Schubek - https://adriansoftware.de
  */
 
-namespace adrianschubek\HtmlBuilder\Components;
+namespace adrianschubek\HtmlBuilder\Components\Basic;
 
+
+use adrianschubek\HtmlBuilder\Components\Component;
 
 class Form extends Component
 {

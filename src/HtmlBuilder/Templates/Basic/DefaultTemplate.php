@@ -4,8 +4,10 @@
  * Adrian Schubek - https://adriansoftware.de
  */
 
-namespace adrianschubek\HtmlBuilder\Templates;
+namespace adrianschubek\HtmlBuilder\Templates\Basic;
 
+
+use adrianschubek\HtmlBuilder\Templates\Template;
 
 class DefaultTemplate implements Template
 {

@@ -7,23 +7,16 @@
 namespace adrianschubek\HtmlBuilder\Builders;
 
 
-use adrianschubek\HtmlBuilder\Components\Basic\Paragraph;
-use adrianschubek\HtmlBuilder\Components\Basic\Title;
 use adrianschubek\HtmlBuilder\Components\Component;
 use adrianschubek\HtmlBuilder\Exceptions\ComponentAliasNotFound;
-use adrianschubek\HtmlBuilder\Templates\DefaultTemplate;
+use adrianschubek\HtmlBuilder\Templates\Basic\DefaultTemplate;
 use adrianschubek\HtmlBuilder\Templates\Template;
 use adrianschubek\HtmlBuilder\Templates\TemplateLoader;
 
-class Builder
+abstract class Builder
 {
-    protected static array $componentsMap = [
-        "title" => Title::class,
-        "p" => Paragraph::class
-    ];
-    protected static array $templatesMap = [
-        "default" => DefaultTemplate::class
-    ];
+    protected static array $componentsMap = [];
+    protected static array $templatesMap = [];
     protected TemplateLoader $pageTemplate;
     protected array $scripts = [];
     protected array $components = [];
@@ -129,10 +122,6 @@ class Builder
 
     public function styles(): string
     {
-        return <<<HTML
-            <style>
-                @import "https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css";            
-            </style>
-        HTML;
+        return "";
     }
 }
