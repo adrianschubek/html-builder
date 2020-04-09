@@ -4,16 +4,16 @@
  * Adrian Schubek - https://adriansoftware.de
  */
 
-namespace adrianschubek\TailwindBuilder\Builders;
+namespace adrianschubek\HtmlBuilder\Builders;
 
 
-use adrianschubek\TailwindBuilder\Components\Basic\Paragraph;
-use adrianschubek\TailwindBuilder\Components\Basic\Title;
-use adrianschubek\TailwindBuilder\Components\Component;
-use adrianschubek\TailwindBuilder\Exceptions\ComponentAliasNotFound;
-use adrianschubek\TailwindBuilder\Templates\DefaultTemplate;
-use adrianschubek\TailwindBuilder\Templates\Template;
-use adrianschubek\TailwindBuilder\Templates\TemplateLoader;
+use adrianschubek\HtmlBuilder\Components\Basic\Paragraph;
+use adrianschubek\HtmlBuilder\Components\Basic\Title;
+use adrianschubek\HtmlBuilder\Components\Component;
+use adrianschubek\HtmlBuilder\Exceptions\ComponentAliasNotFound;
+use adrianschubek\HtmlBuilder\Templates\DefaultTemplate;
+use adrianschubek\HtmlBuilder\Templates\Template;
+use adrianschubek\HtmlBuilder\Templates\TemplateLoader;
 
 class Builder
 {

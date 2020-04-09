@@ -4,7 +4,7 @@
  * Adrian Schubek - https://adriansoftware.de
  */
 
-namespace adrianschubek\TailwindBuilder\Templates;
+namespace adrianschubek\HtmlBuilder\Templates;
 
 
 class TemplateLoader

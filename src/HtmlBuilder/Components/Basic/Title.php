@@ -4,10 +4,10 @@
  * Adrian Schubek - https://adriansoftware.de
  */
 
-namespace adrianschubek\TailwindBuilder\Components\Basic;
+namespace adrianschubek\HtmlBuilder\Components\Basic;
 
 
-use adrianschubek\TailwindBuilder\Components\Component;
+use adrianschubek\HtmlBuilder\Components\Component;
 
 class Title extends Component
 {

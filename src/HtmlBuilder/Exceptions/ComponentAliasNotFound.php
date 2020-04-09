@@ -4,7 +4,7 @@
  * Adrian Schubek - https://adriansoftware.de
  */
 
-namespace adrianschubek\TailwindBuilder\Exceptions;
+namespace adrianschubek\HtmlBuilder\Exceptions;
 
 
 class ComponentAliasNotFound extends \Exception

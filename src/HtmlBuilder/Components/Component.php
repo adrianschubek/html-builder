@@ -4,11 +4,11 @@
  * Adrian Schubek - https://adriansoftware.de
  */
 
-namespace adrianschubek\TailwindBuilder\Components;
+namespace adrianschubek\HtmlBuilder\Components;
 
 
-use adrianschubek\TailwindBuilder\Exceptions\PropNotFoundException;
-use adrianschubek\TailwindBuilder\Exceptions\TooManyPropsInMethodCall;
+use adrianschubek\HtmlBuilder\Exceptions\PropNotFoundException;
+use adrianschubek\HtmlBuilder\Exceptions\TooManyPropsInMethodCall;
 
 abstract class Component
 {

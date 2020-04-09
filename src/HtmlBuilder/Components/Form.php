@@ -4,7 +4,7 @@
  * Adrian Schubek - https://adriansoftware.de
  */
 
-namespace adrianschubek\TailwindBuilder\Components;
+namespace adrianschubek\HtmlBuilder\Components;
 
 
 class Form extends Component
