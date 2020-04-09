@@ -45,12 +45,14 @@ class Builder
     public static function fromJson(string $json, Template $template = null): self
     {
         $app = json_decode($json, true);
+        if (isset($app["head"]["template"])) {
+            $tmap = static::templatesMap();
+            $template = new $tmap[$app["head"]["template"]];
+        }
         $builder = new static($template ?? new DefaultTemplate());
 
-        $templates = static::templatesMap();
         if (isset($app["head"])) {
-            if (isset($app["head"]["title"])) $builder->title($app["head"]["title"]);
-            if (isset($app["head"]["lang"])) $builder->lang($app["head"]["lang"]);
+            $builder->config($app["head"]);
         }
         $map = static::componentsMap();
         if (isset($app["page"])) {
@@ -65,25 +67,21 @@ class Builder
         return $builder;
     }
 
-    public static function templatesMap(): array
+    public static function templatesMap(array $templates = []): array
     {
+        static::$templatesMap = array_merge(static::$templatesMap, $templates);
         return static::$templatesMap;
     }
 
-    public function title(string $title): self
+    public function config(array $cfg): self
     {
-        $this->config["title"] = $title;
+        $this->config = array_merge($this->config, $cfg);
         return $this;
     }
 
-    public function lang(string $lang): self
+    public static function componentsMap(array $components = []): array
     {
-        $this->config["lang"] = $lang;
-        return $this;
-    }
-
-    public static function componentsMap(): array
-    {
+        static::$componentsMap = array_merge(static::$componentsMap, $components);
         return static::$componentsMap;
     }
 
@@ -95,9 +93,15 @@ class Builder
         return $this;
     }
 
-    public function config(array $cfg): self
+    public function title(string $title): self
     {
-        $this->config = array_merge($this->config, $cfg);
+        $this->config["title"] = $title;
+        return $this;
+    }
+
+    public function lang(string $lang): self
+    {
+        $this->config["lang"] = $lang;
         return $this;
     }
 
