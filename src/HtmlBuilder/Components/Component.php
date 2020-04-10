@@ -12,15 +12,15 @@ use adrianschubek\HtmlBuilder\Exceptions\TooManyPropsInMethodCall;
 
 abstract class Component
 {
+    protected static string $scriptReference = "$";
     protected array $props = [];
-
     private array $internalProps;
     private array $data = [];
     private ?string $id;
 
     public function __construct(...$props)
     {
-        $this->id ??= bin2hex(random_bytes(8));
+        $this->id ??= bin2hex(random_bytes(5));
         $this->data["_id"] = "id=" . $this->id;
         $this->internalProps = [...$this->props, "class"];
 
@@ -78,7 +78,7 @@ abstract class Component
     public function getInternalScripts(): string
     {
         return 'let v' . $this->id . ' = document.getElementById("' . $this->id . '");'
-            . str_replace("$", "v".$this->id, $this->scripts());
+            . str_replace(static::$scriptReference, "v" . $this->id, $this->scripts());
     }
 
     public function scripts(): string

@@ -33,7 +33,7 @@ class Button extends Component
     {
         return <<<JS
              $.addEventListener("click", () => {
-                 alert("clicked")
+                 alert($)
              });     
         JS;
     }
