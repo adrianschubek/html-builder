@@ -12,19 +12,21 @@ use adrianschubek\HtmlBuilder\Exceptions\ComponentAliasNotFound;
 use adrianschubek\HtmlBuilder\Templates\Basic\DefaultTemplate;
 use adrianschubek\HtmlBuilder\Templates\Template;
 use adrianschubek\HtmlBuilder\Templates\TemplateLoader;
+use Sunra\PhpSimple\HtmlDomParser;
 
 abstract class Builder
 {
     protected static array $componentsMap = [];
     protected static array $templatesMap = [];
+    protected static string $htmlPrefix = "";
     protected TemplateLoader $pageTemplate;
     protected array $scripts = [];
     protected array $components = [];
     protected array $config = [];
 
-    public function __construct(Template $template)
+    public function __construct(?Template $template = null)
     {
-        $this->template($template);
+        $this->template($template ?? new DefaultTemplate());
         $this->scripts = [];
     }
 
@@ -84,6 +86,31 @@ abstract class Builder
             $this->components[] = $component;
         }
         return $this;
+    }
+
+    public static function fromXml(string $xml): self
+    {
+        $x = simplexml_load_string($xml);
+        $builder = new static();
+        foreach ($x->head as $t) {
+            $builder->config((array)$t);
+        }
+        foreach ($x->page->children() as $component) {
+            $cname = $component->getName();
+            $tempComponentName = static::$componentsMap[$cname];
+
+            if ((string)$component !== "") {
+                $builder->add(new $tempComponentName(["text" => (string)$component]));
+                continue;
+            }
+
+            $data = [];
+            foreach ($component->attributes() as $key => $val) {
+                $data[$key] = (string)$val;
+            }
+            $builder->add(new $tempComponentName($data));
+        }
+        return $builder;
     }
 
     public function title(string $title): self
