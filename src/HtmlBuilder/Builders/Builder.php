@@ -97,14 +97,17 @@ abstract class Builder
         }
         foreach ($x->page->children() as $component) {
             $cname = $component->getName();
+            if (!isset(static::$componentsMap[$cname])) {
+                throw new ComponentAliasNotFound($cname);
+            }
             $tempComponentName = static::$componentsMap[$cname];
 
+            $data = [];
+
             if ((string)$component !== "") {
-                $builder->add(new $tempComponentName(["text" => (string)$component]));
-                continue;
+                $data["text"] = (string)$component;
             }
 
-            $data = [];
             foreach ($component->attributes() as $key => $val) {
                 $data[$key] = (string)$val;
             }
@@ -125,26 +128,27 @@ abstract class Builder
         return $this;
     }
 
-    public function scripts(string $scripts): self
-    {
-        $this->scripts[] = $scripts;
-        return $this;
-    }
-
     public function render(): string
     {
         $data = [];
         foreach ($this->components as $component) {
+            $this->scripts($component->getInternalScripts());
             $data[] = $component->get();
         }
         $components = implode($data);
 
         $this->config["body"] = $components;
         $this->config["styles"] = $this->styles();
-        $this->config["scripts"] = implode($this->scripts);
+        $this->config["scripts"] = "<script>" . implode($this->scripts) . "</script>";
         $this->config["lang"] ??= "en";
 
         return $this->pageTemplate->render($this->config);
+    }
+
+    public function scripts(string $scripts): self
+    {
+        $this->scripts[] = $scripts;
+        return $this;
     }
 
     public function styles(): string
