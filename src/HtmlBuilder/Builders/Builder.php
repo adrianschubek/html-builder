@@ -139,7 +139,7 @@ abstract class Builder
 
         $this->config["body"] = $components;
         $this->config["styles"] = $this->styles();
-        $this->config["scripts"] = "<script>" . (new JS(implode($this->scripts)))->minify()  . "</script>";
+        $this->config["scripts"] = "<script>" . (new JS(implode($this->scripts)))->minify() . "</script>";
         $this->config["lang"] ??= "en";
 
         return $this->pageTemplate->render($this->config);
