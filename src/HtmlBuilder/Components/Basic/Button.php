@@ -16,9 +16,7 @@ class Button extends Component
     protected function computed(): array
     {
         return [
-            "color" => function ($val): string {
-                return $val === "danger" ? "red" : "blue";
-            }
+            "color" => fn($val): string => $val === "danger" ? "red" : "blue"
         ];
     }
 
@@ -33,7 +31,7 @@ class Button extends Component
     {
         return <<<JS
              $.addEventListener("click", () => {
-                 alert($)
+                 alert($.innerText)
              });     
         JS;
     }

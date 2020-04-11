@@ -8,9 +8,11 @@ namespace adrianschubek\HtmlBuilder\Builders;
 
 
 use adrianschubek\HtmlBuilder\Components\Basic\Button;
+use adrianschubek\HtmlBuilder\Components\Basic\ItemList;
 use adrianschubek\HtmlBuilder\Components\Basic\Paragraph;
 use adrianschubek\HtmlBuilder\Components\Basic\Title;
 use adrianschubek\HtmlBuilder\Templates\Basic\DefaultTemplate;
+use adrianschubek\HtmlBuilder\Templates\Basic\PlainTemplate;
 
 class BasicBuilder extends Builder
 {
@@ -21,9 +23,12 @@ class BasicBuilder extends Builder
         "p" => Paragraph::class,
         "Button" => Button::class,
         "btn" => Button::class,
+        "ItemList" => ItemList::class,
+        "item-list" => ItemList::class,
     ];
 
     protected static array $templatesMap = [
-        "default" => DefaultTemplate::class
+        "default" => DefaultTemplate::class,
+        "plain" => PlainTemplate::class
     ];
 }

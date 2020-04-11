@@ -9,14 +9,17 @@ namespace adrianschubek\HtmlBuilder\Components\Basic;
 
 use adrianschubek\HtmlBuilder\Components\Component;
 
-class Title extends Component
+class ItemList extends Component
 {
-    protected array $props = ["text"];
+    protected array $props = ["type", "text"];
 
     public function render(): string
     {
         return <<<HTML
-            <h1 class="{{_class}}">{{text}}</h1>
+            <ol>                
+                {{text}}     
+                <children/>     
+            </ol>         
         HTML;
     }
 }

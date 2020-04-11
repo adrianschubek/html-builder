@@ -9,10 +9,12 @@ namespace adrianschubek\HtmlBuilder\Builders;
 
 use adrianschubek\HtmlBuilder\Components\Component;
 use adrianschubek\HtmlBuilder\Exceptions\ComponentAliasNotFound;
+use adrianschubek\HtmlBuilder\Exceptions\TemplateNotFound;
 use adrianschubek\HtmlBuilder\Templates\Basic\DefaultTemplate;
 use adrianschubek\HtmlBuilder\Templates\Template;
 use adrianschubek\HtmlBuilder\Templates\TemplateLoader;
 use MatthiasMullie\Minify\JS;
+use SimpleXMLElement;
 
 abstract class Builder
 {
@@ -93,10 +95,25 @@ abstract class Builder
         $x = simplexml_load_string($xml);
         $builder = new static();
         foreach ($x->head as $t) {
+            if (isset($t->template)) {
+                if (!isset(static::$templatesMap[(string)$t->template])) {
+                    throw new TemplateNotFound((string)$t->template);
+                } else {
+                    $builder->template(new static::$templatesMap[(string)$t->template]);
+                }
+            }
             $builder->config((array)$t);
         }
-        foreach ($x->page->children() as $component) {
-            $cname = $component->getName();
+        static::addXmlComponent($builder, $x->page);
+        dd($builder);
+        return $builder;
+    }
+
+
+    protected static function addXmlComponent(Builder &$builder, SimpleXMLElement $element, Component $parent = null): Builder
+    {
+        foreach ($element->children() as $child) {
+            $cname = $child->getName(); // <abc/> => "abc"
             if (!isset(static::$componentsMap[$cname])) {
                 throw new ComponentAliasNotFound($cname);
             }
@@ -104,16 +121,30 @@ abstract class Builder
 
             $data = [];
 
-            if ((string)$component !== "") {
-                $data["text"] = (string)$component;
-            }
-
-            foreach ($component->attributes() as $key => $val) {
+            $data["text"] = (string)$child;
+            foreach ($child->attributes() as $key => $val) {
                 $data[$key] = (string)$val;
             }
-            $builder->add(new $tempComponentName($data));
+            $component = new $tempComponentName($data);
+
+            if ($child->children()->count() > 0) {
+                static::addXmlComponent($builder, $child, $component);
+            }
+            if($parent !== null) {
+                $parent->add($component);
+            } else {
+                $builder->add($component);
+            }
         }
         return $builder;
+    }
+
+    public function addWithParent(Component $parent, Component ...$components): self
+    {
+        foreach ($components as $component) {
+            $this->components[$parent->get()][] = $component;
+        }
+        return $this;
     }
 
     public function title(string $title): self
@@ -154,5 +185,10 @@ abstract class Builder
     public function styles(): string
     {
         return "";
+    }
+
+    protected function iterateAndAdd(SimpleXMLElement $element)
+    {
+
     }
 }
