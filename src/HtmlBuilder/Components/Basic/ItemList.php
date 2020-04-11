@@ -13,13 +13,20 @@ class ItemList extends Component
 {
     protected array $props = ["type", "text"];
 
+    protected function computed(): array
+    {
+        return [
+            "type" => fn($val) => $val === "ol" ? "ol" : "ul"
+        ];
+    }
+
     public function render(): string
     {
         return <<<HTML
-            <ol>                
+            <{{type}}>                
                 {{text}}     
                 <children/>     
-            </ol>         
+            <{{type}}/>         
         HTML;
     }
 }
