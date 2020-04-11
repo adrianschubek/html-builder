@@ -7,6 +7,7 @@
 namespace adrianschubek\HtmlBuilder\Components;
 
 
+use adrianschubek\HtmlBuilder\Exceptions\ChildrenTagNotFound;
 use adrianschubek\HtmlBuilder\Exceptions\PropNotFoundException;
 use adrianschubek\HtmlBuilder\Exceptions\TooManyPropsInMethodCall;
 
@@ -72,6 +73,19 @@ abstract class Component
             }
             $str = str_replace("{{" . $key . "}}", $value, $str);
         }
+
+        if (!empty($this->components)) {
+            if (strpos($str, "<children/>") === false) {
+                throw new ChildrenTagNotFound(static::class);
+            }
+
+            $temp = "";
+            foreach ($this->components as $component) {
+                $temp .= $component->get();
+            }
+            $str = str_replace("<children/>", $temp, $str);
+        }
+
         return $str;
     }
 

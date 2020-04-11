@@ -105,7 +105,7 @@ abstract class Builder
             $builder->config((array)$t);
         }
         static::addXmlComponent($builder, $x->page);
-        dd($builder);
+//        dd($builder);
         return $builder;
     }
 
@@ -168,7 +168,7 @@ abstract class Builder
         }
         $components = implode($data);
 
-        $this->config["body"] = $components;
+        $this->config["body"] = $components . "<!-- Page created using adriansoftware/builder -->";
         $this->config["styles"] = $this->styles();
         $this->config["scripts"] = "<script>" . (new JS(implode($this->scripts)))->minify() . "</script>";
         $this->config["lang"] ??= "en";
