@@ -15,7 +15,7 @@ abstract class Component
 {
     protected static string $scriptReference = "$";
     protected array $props = [];
-    protected array $components = [];
+    private array $components = [];
     private array $internalProps;
     private array $data = [];
     private ?string $id;
@@ -111,5 +111,10 @@ abstract class Component
     {
         $this->components[] = $component;
         return $this;
+    }
+
+    public function getId(): ?string
+    {
+        return $this->id;
     }
 }
